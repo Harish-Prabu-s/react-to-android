@@ -38,7 +38,6 @@ export default function HomePage() {
           }),
           walletApi.getWallet().catch((err) => {
             console.error('Wallet load error:', err);
-            toast.error('Failed to load wallet');
             return null;
           }),
           gamificationApi.getLevel().catch((err) => {
