@@ -3,7 +3,9 @@
     "name": "LoveableApp",
     "slug": "lobeable",
     "icon": "./assets/icon.png",
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router"
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -17,12 +19,6 @@
     ],
     "sdkVersion": "54.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -31,6 +27,12 @@
     ],
     "android": {
       "package": "com.anonymous.lobeable"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "edfd28ef-018c-4446-83bd-99d986c3bdb1"
+      }
     }
   }
 }
