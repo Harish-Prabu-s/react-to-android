@@ -29,7 +29,9 @@
       "package": "com.anonymous.lobeable"
     },
     "extra": {
-      "router": {},
+      "router": {
+        "origin": ""
+      },
       "eas": {
         "projectId": "edfd28ef-018c-4446-83bd-99d986c3bdb1"
       }
