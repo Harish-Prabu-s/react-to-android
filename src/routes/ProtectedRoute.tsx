@@ -7,6 +7,8 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated, user } = useAuthStore();
+  const lang = localStorage.getItem('preferred_language');
+  const email = localStorage.getItem('user_email');
 
   // Not logged in
   if (!isAuthenticated) {
@@ -16,6 +18,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   // Only redirect when gender is explicitly null
   if (user?.gender === null) {
     return <Navigate to="/gender" replace />;
+  }
+  if (!lang) {
+    return <Navigate to="/language" replace />;
+  }
+  if (!email) {
+    return <Navigate to="/email" replace />;
   }
 
   return <>{children}</>;

@@ -1,0 +1,6 @@
+{
+	"appId": "cpm.lobeable.app",
+	"appName": "LoveableApp",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

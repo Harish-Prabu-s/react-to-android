@@ -22,4 +22,9 @@ export const profilesApi = {
     });
     return response.data;
   },
+  
+  getById: async (userId: number): Promise<Profile> => {
+    const response = await apiClient.get(`/profiles/${userId}/`);
+    return response.data;
+  },
 };

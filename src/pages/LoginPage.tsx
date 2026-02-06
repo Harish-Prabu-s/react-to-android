@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '@/api/auth';
-import { toast } from 'sonner';
-import { Phone, Sparkles } from 'lucide-react';
+import { notify } from '@/lib/utils';
+import { Phone, Sparkles, ScanLine } from 'lucide-react';
 
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -20,16 +20,16 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const response = await authApi.sendOTP({ phone_number: phoneNumber });
-      toast.success('OTP sent successfully!');
+      notify('success', 'OTP_SENT');
       // In development, show OTP in console
       if (response.otp) {
         console.log('OTP (dev only):', response.otp);
-        toast(`OTP: ${response.otp}`, { duration: 5000 });
+        notify('message', 'OTP_DEV_CODE', { code: response.otp });
       }
       navigate('/otp', { state: { phoneNumber } });
     } catch (error: unknown) {
       const axiosError = error as { response?: { data?: { error?: string } } };
-      toast.error(axiosError.response?.data?.error || 'Failed to send OTP');
+      notify('error', 'PAYMENT_ERROR');
     } finally {
       setLoading(false);
     }
@@ -39,13 +39,14 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-primary rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-primary-500 via-secondary-500 to-primary-500 rounded-full mb-4 animate-in fade-in-0 zoom-in-95">
             <Sparkles className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
-            Vibely
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent mb-2 tracking-tight animate-in slide-in-from-top-2 duration-300">
+            Loveable App
           </h1>
-          <p className="text-gray-600">Connect through voice and video</p>
+          <p className="text-gray-600 animate-in fade-in-0 delay-150">Connect through voice and video</p>
+          <p className="text-xs text-gray-400 mt-1">New users get free access</p>
         </div>
 
         <div className="card">
@@ -65,6 +66,31 @@ export default function LoginPage() {
                   required
                 />
               </div>
+              <button
+                type="button"
+                onClick={() => {
+                  try {
+                    // Try Android interface (if available)
+                    // @ts-expect-error AndroidInterface injected at runtime
+                    const deviceNumber = window.AndroidInterface?.getPhoneNumber?.() || localStorage.getItem('device_phone_number');
+                    if (deviceNumber) {
+                      setPhoneNumber(deviceNumber);
+                      notify('success', 'AUTO_FILL_SUCCESS');
+                    } else {
+                      // Fallback demo number for testing environment
+                      setPhoneNumber('9999999999');
+                      notify('message', 'AUTO_FILL_FALLBACK');
+                    }
+                  } catch {
+                    setPhoneNumber('9999999999');
+                    notify('message', 'AUTO_FILL_FALLBACK');
+                  }
+                }}
+                className="mt-2 inline-flex items-center gap-2 text-sm text-primary-600 font-semibold hover:underline"
+              >
+                <ScanLine className="w-4 h-4" />
+                Auto-Fetch My Number
+              </button>
             </div>
 
             <button

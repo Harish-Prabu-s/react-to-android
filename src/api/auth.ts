@@ -18,7 +18,7 @@ export const authApi = {
   },
 
   selectGender: async (data: GenderSelection): Promise<User> => {
-    const response = await apiClient.patch('/auth/update-gender/', data);
+    const response = await apiClient.post('/auth/select-gender/', data);
     return response.data;
   },
 
@@ -32,5 +32,9 @@ export const authApi = {
     if (refreshToken) {
       await apiClient.post('/auth/logout/', { refresh: refreshToken });
     }
+  },
+  setEmail: async (email: string): Promise<{ success: boolean }> => {
+    const response = await apiClient.post('/auth/set-email/', { email });
+    return response.data;
   },
 };

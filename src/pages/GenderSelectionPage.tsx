@@ -27,7 +27,7 @@ export default function GenderSelectionPage() {
       await refreshUser(); // safety sync
 
       toast.success('Profile created successfully!');
-      navigate('/home', { replace: true }); // prevents redirect loop
+      navigate('/email', { replace: true }); // next: email capture
     } catch (error: unknown) {
       const axiosError = error as { response?: { data?: { gender?: string[]; error?: string } } };
       toast.error(

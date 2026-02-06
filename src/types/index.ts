@@ -7,6 +7,7 @@ export interface User {
   gender: Gender | null;
   is_verified: boolean;
   is_online: boolean;
+  is_superuser?: boolean;
   date_joined: string;
   last_login: string | null;
 }
@@ -86,6 +87,13 @@ export interface Message {
   created_at: string;
 }
 
+export interface Story {
+  id: number;
+  user: number;
+  image_url: string;
+  timestamp: string;
+}
+
 // Wallet Types
 export interface Wallet {
   id: number;
@@ -99,6 +107,7 @@ export interface Wallet {
 export interface CoinTransaction {
   id: number;
   wallet: number;
+  type: 'credit' | 'debit';
   transaction_type: 'purchase' | 'spent' | 'earned' | 'withdrawal';
   amount: number;
   description: string;

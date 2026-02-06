@@ -59,7 +59,7 @@ export default function OTPScreen() {
     try {
       await login(phoneNumber, otpCode);
       toast.success('Login successful!');
-      navigate('/gender');
+      navigate('/language');
     } catch (error: unknown) {
       const axiosError = error as { response?: { data?: { error?: string } } };
       toast.error(axiosError.response?.data?.error || 'Invalid OTP');
@@ -96,7 +96,7 @@ export default function OTPScreen() {
             {otp.map((digit, index) => (
               <input
                 key={index}
-                ref={(el) => (inputRefs.current[index] = el)}
+                ref={(el) => { inputRefs.current[index] = el; }}
                 type="text"
                 inputMode="numeric"
                 maxLength={1}

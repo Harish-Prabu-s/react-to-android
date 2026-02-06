@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Search, User, Wallet } from 'lucide-react';
+import { Home, Search, User, Wallet, Gamepad2, Shield } from 'lucide-react';
+import { useAuthStore } from '@/store/authStore';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -7,13 +8,18 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
+  const { user } = useAuthStore();
 
   const navItems = [
     { path: '/home', icon: Home, label: 'Home' },
+    { path: '/games', icon: Gamepad2, label: 'Games' },
     { path: '/discover', icon: Search, label: 'Discover' },
     { path: '/wallet', icon: Wallet, label: 'Wallet' },
     { path: '/profile', icon: User, label: 'Profile' },
   ];
+  if (user?.is_superuser) {
+    navItems.push({ path: '/admin', icon: Shield, label: 'Admin' });
+  }
 
   return (
     <div className="min-h-screen pb-20">
